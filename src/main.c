@@ -1,15 +1,18 @@
 #include "matrix.h"
 
-typedef struct matrix {
+struct matrix {
 	struct matrix* right;
 	struct matrix* below;
 	int line;
 	int column;
 	float info;
-}Matrix;
+};
+
 
 
 int main( void ) {
+    typedef struct matrix Matrix;
+
     /* Inicializacao da aplicacao ... */
     Matrix *A = matrix_create();
     matrix_print( A );
