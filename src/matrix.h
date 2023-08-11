@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-
 typedef struct matrix {
 	struct matrix* right;
 	struct matrix* below;
@@ -11,12 +8,57 @@ typedef struct matrix {
 
 Matrix* matrix_create( void )
 {
-    //lê de stdin os elementos diferentes de zero de uma matriz 
-    //e monta a estrutura especificada acima. 
-    //A entrada consiste dos valores de m e n (número de linhas e de colunas da matriz) 
-    //seguidos de triplas (i, j, valor) 
-    //para os elementos diferentes de zero da matriz. Por exemplo, para a matriz da Figura 1, a entrada seria:
+    int lines = 0;
+	int columns = 0;
+
+    scanf(“%d”, &lines);
+	scanf(“%d”, &columns);
+    //criar uma cabeça pra cada linha, e para cada coluna
+	
+	Matrix* double_head = (Matrix*)malloc(sizeof(Matrix));
+	double_head->right = NULL;
+	double_head->right = NULL;
+	double_head->line = -1; // mostra que é cabeça
+	double_head->column = -1;
+	
+	matrix * current = double_head;
+
+	
+	for(int i = 0; i < lines; i++){  // criando lista de cabeças
+		if(i == lines-1) {
+			current.right = double_head;
+		}else{
+			current.right = (Matrix*)malloc(sizeof(Matrix));
+			current = current.right;
+			current.column = -1;
+		}
+    }
+    
+    current = double_head;
+    for(int i = 0; i < columns; i++){    //create line
+
+	    if(i == column-1){
+		    current.below = double_head;
+        } else {
+	    current.below = (Matrix*)malloc(sizeof(Matrix));
+	    current = current.below;
+	    current.line = -1;
+	    }
+	
+	}
+    int linha = 0;
+    int coluna = 0;
+    int valor = 0;
+    while(1){
+	    scanf(“%d %d %d”, &linha, &coluna, &valor);
+		// localizar linha, criar nodo e alterar ponteiros
+
+
+	if(. ou 0)
+		break;
+    }
 }
+
 
 void matrix_destroy( Matrix* m )
 {
