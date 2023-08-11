@@ -1,14 +1,5 @@
 #include "matrix.h"
 
-typedef struct matrix {
-	struct matrix* right;
-	struct matrix* below;
-	int line;
-	int column;
-	float info;
-}Matrix;
-
-
 int main( void ) {
     /* Inicializacao da aplicacao ... */
     Matrix *A = matrix_create();

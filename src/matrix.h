@@ -1,10 +1,13 @@
-struct matrix {
+#include <stdlib.h>
+#include <stdio.h>
+
+typedef struct matrix {
 	struct matrix* right;
 	struct matrix* below;
 	int line;
 	int column;
 	float info;
-}
+}Matrix;
 
 Matrix* matrix_create( void )
 {
