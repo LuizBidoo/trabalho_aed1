@@ -26,25 +26,27 @@ Matrix* matrix_create( void )  // deve funcionar com entrada de dados sem ordem 
 
 	Matrix* current = double_head;
 
-	for(int i = 0; i < total_lines; i++){  // criando cabeças das linhas
+	for(int i = -1; i < total_lines; i++){  // criando cabeças das linhas
 		if(i != total_lines-1) {
-			current->right = (Matrix*)malloc(sizeof(Matrix));
-			current = current->right;
-			current->column = -1;
+			current->below = (Matrix*)malloc(sizeof(Matrix));
+			current = current->below;
+			current->line = -1;
+			current->right = current;
 		}else{
-			current->right = double_head; //circular
+			current->below = double_head; //circular
 		}
     }
     
     current = double_head;
-    for(int i = 0; i < total_columns; i++){    //criando cabeças das colunas
+    for(int i = -1; i < total_columns; i++){    //criando cabeças das colunas
 
 	    if(i != total_columns-1){
-	    current->below = (Matrix*)malloc(sizeof(Matrix));
-	    current = current->below;
-	    current->line = -1;
+	    current->right = (Matrix*)malloc(sizeof(Matrix));
+	    current = current->right;
+	    current->column = -1;
+		current->below = current;
         } else {
-			current->below = double_head; //circular
+			current->right = double_head; //circular
 	    }
 	
 	}
@@ -78,32 +80,34 @@ Matrix* matrix_create( void )  // deve funcionar com entrada de dados sem ordem 
 		///////////////////////////////////////////////////////////////////////////////////////// 
 
 		Matrix* temp = current_column_head;
-		Matrix* previous = current_column_head;
-		while(temp->below->column < column && temp->below->column != -1) //acho que funciona no primeiro caso tb
+		while(temp->below->line < line && temp->below->column != -1)
 		{
-			previous = temp;
 			temp = temp->below;
 		}
 
-		previous->below = (Matrix*)malloc(sizeof(Matrix)); //cria nodo na coluna certa
-		current = previous->below;
+		Matrix* previous = temp->below;
+		temp->below = (Matrix*)malloc(sizeof(Matrix)); //cria nodo na coluna certa
+		current = temp->below;
 
 		current->column = column;
 		current->line = line;
 		current->info = info;
-		current->below = temp;
+		current->below = previous;
 
 		///////////////////////////////////////////////////////////////////////////////////////// nao tenho ideia se parte abaixo funciona
 
 		temp = current_line_head;
-		previous = current_line_head;
-		while(temp->right->line < line && temp->right->line != -1)
+		while(temp->right->column < column && temp->right->line != -1)
 		{
-			previous = temp;
 			temp = temp->right;
 		}
 
-		previous->right = current;
+		previous = temp->right;
+		temp->right = current;
+		current->right = previous;
+
+		printf("added node:\nline: %d\ncolumn: %d\ninfo:%f\n", current->line, current->column, current->info);
+
     }
 }
 
