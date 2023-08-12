@@ -79,34 +79,35 @@ Matrix* matrix_create( void )  // deve funcionar com entrada de dados sem ordem 
 
 		///////////////////////////////////////////////////////////////////////////////////////// 
 
+// criando nodo no lugar certo
 		Matrix* temp = current_column_head;
-		while(temp->below->line < line && temp->below->column != -1)
+		while(temp->below->line < line && temp->below->column != -1) 
 		{
 			temp = temp->below;
 		}
 
-		Matrix* previous = temp->below;
-		temp->below = (Matrix*)malloc(sizeof(Matrix)); //cria nodo na coluna certa
-		current = temp->below;
+			Matrix* previous = temp->below;
+			temp->below = (Matrix*)malloc(sizeof(Matrix));
+			current = temp->below;
 
-		current->column = column;
-		current->line = line;
-		current->info = info;
-		current->below = previous;
+			current->column = column;
+			current->line = line;
+			current->info = info;
+			current->below = previous;
+//
 
-		///////////////////////////////////////////////////////////////////////////////////////// nao tenho ideia se parte abaixo funciona
-
+// adicionando current->right
 		temp = current_line_head;
-		while(temp->right->column < column && temp->right->line != -1)
+		while(temp->right->column < column && temp->right->line != -1) 
 		{
 			temp = temp->right;
 		}
+			previous = temp->right;
+			temp->right = current;
+			current->right = previous;
+//
 
-		previous = temp->right;
-		temp->right = current;
-		current->right = previous;
-
-		printf("added node:\nline: %d\ncolumn: %d\ninfo:%f\n", current->line, current->column, current->info);
+		//printf("added node:\nline: %d\ncolumn: %d\ninfo:%f\n", current->line, current->column, current->info);
 
     }
 }
