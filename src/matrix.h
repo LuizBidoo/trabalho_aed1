@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <stdio.h>
+
 typedef struct matrix {
 	struct matrix* right;
 	struct matrix* below;
@@ -6,56 +9,101 @@ typedef struct matrix {
 	float info;
 }Matrix;
 
-Matrix* matrix_create( void )
+Matrix* matrix_create( void )  // deve funcionar com entrada de dados sem ordem de linhas e colunas tb
 {
-    int lines = 0;
-	int columns = 0;
+    int total_lines = 0;
+	int total_columns = 0;
 
-    scanf(“%d”, &lines);
-	scanf(“%d”, &columns);
-    //criar uma cabeça pra cada linha, e para cada coluna
-	
+    scanf("%d %d", &total_lines, &total_columns);
+	if(total_lines == 0 && total_columns == 0) return;
+
 	Matrix* double_head = (Matrix*)malloc(sizeof(Matrix));
 	double_head->right = NULL;
-	double_head->right = NULL;
+	double_head->below = NULL;
 	double_head->line = -1; // mostra que é cabeça
 	double_head->column = -1;
 	
-	matrix * current = double_head;
 
-	
-	for(int i = 0; i < lines; i++){  // criando lista de cabeças
-		if(i == lines-1) {
-			current.right = double_head;
+	Matrix* current = double_head;
+
+	for(int i = 0; i < total_lines; i++){  // criando cabeças das linhas
+		if(i != total_lines-1) {
+			current->right = (Matrix*)malloc(sizeof(Matrix));
+			current = current->right;
+			current->column = -1;
 		}else{
-			current.right = (Matrix*)malloc(sizeof(Matrix));
-			current = current.right;
-			current.column = -1;
+			current->right = double_head; //circular
 		}
     }
     
     current = double_head;
-    for(int i = 0; i < columns; i++){    //create line
+    for(int i = 0; i < total_columns; i++){    //criando cabeças das colunas
 
-	    if(i == column-1){
-		    current.below = double_head;
+	    if(i != total_columns-1){
+	    current->below = (Matrix*)malloc(sizeof(Matrix));
+	    current = current->below;
+	    current->line = -1;
         } else {
-	    current.below = (Matrix*)malloc(sizeof(Matrix));
-	    current = current.below;
-	    current.line = -1;
+			current->below = double_head; //circular
 	    }
 	
 	}
-    int linha = 0;
-    int coluna = 0;
-    int valor = 0;
+
+    int line = 0;
+    int column = 0;
+    int info = 0;
+
     while(1){
-	    scanf(“%d %d %d”, &linha, &coluna, &valor);
-		// localizar linha, criar nodo e alterar ponteiros
 
+	    scanf("%d", &line);
+		if(line == '.' || line == 0) break;
 
-	if(. ou 0)
-		break;
+		scanf("%d %d", &column, &info);
+		// localizar line, criar nodo e alterar ponteiros
+
+		current = double_head;
+		for(int i = 0; i < column; i++)   // descobre cabeça da coluna certa
+		{
+			current = current->right;
+		}
+		Matrix* current_column_head = current;
+
+		current = double_head;
+		for(int i = 0; i < line; i++)    // descobre cabeça da linha certa 
+		{
+			current = current->below;
+		}
+		Matrix* current_line_head = current;
+
+		///////////////////////////////////////////////////////////////////////////////////////// 
+
+		Matrix* temp = current_column_head;
+		Matrix* previous = current_column_head;
+		while(temp->below->column < column && temp->below->column != -1) //acho que funciona no primeiro caso tb
+		{
+			previous = temp;
+			temp = temp->below;
+		}
+
+		previous->below = (Matrix*)malloc(sizeof(Matrix)); //cria nodo na coluna certa
+		current = previous->below;
+
+		current->column = column;
+		current->line = line;
+		current->info = info;
+		current->below = temp;
+
+		///////////////////////////////////////////////////////////////////////////////////////// nao tenho ideia se parte abaixo funciona
+
+		temp = current_line_head;
+		previous = current_line_head;
+		while(temp->right->line < line && temp->right->line != -1)
+		{
+			previous = temp;
+			temp = temp->right;
+		}
+
+		previous->right = current;
     }
 }
 
