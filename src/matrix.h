@@ -9,7 +9,7 @@ typedef struct matrix {
 	float info;
 }Matrix;
 
-Matrix* matrix_create( void )  // deve funcionar com entrada de dados sem ordem de linhas e colunas tb
+Matrix* matrix_create( void )
 {
     int total_lines = 0;
 	int total_columns = 0;
