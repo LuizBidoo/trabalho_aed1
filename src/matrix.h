@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 
 typedef struct matrix {
 	struct matrix* right;
@@ -11,20 +12,25 @@ typedef struct matrix {
 
 Matrix* matrix_create( void )
 {
+	//Le de stdin os elementos diferentes de 0 e monta a matriz
     int total_lines = 0;
 	int total_columns = 0;
 
     scanf("%d %d", &total_lines, &total_columns);
-	if(total_lines == 0 && total_columns == 0) return;
+	while(total_lines == 0 && total_columns == 0)
+	{
+		printf("Can't create empty matrix, try again.");
+		scanf("%d %d", &total_lines, &total_columns);
+	}
 
-	Matrix* double_head = (Matrix*)malloc(sizeof(Matrix));
-	double_head->right = NULL;
-	double_head->below = NULL;
-	double_head->line = -1; // mostra que é cabeça
-	double_head->column = -1;
+	Matrix* m = (Matrix*)malloc(sizeof(Matrix));  // matriz = cabeça dupla
+	m->right = NULL;
+	m->below = NULL;
+	m->line = -1;
+	m->column = -1;
 	
 
-	Matrix* current = double_head;
+	Matrix* current = m;
 
 	for(int i = -1; i < total_lines; i++){  // criando cabeças das linhas
 		if(i != total_lines-1) {
@@ -33,11 +39,11 @@ Matrix* matrix_create( void )
 			current->line = -1;
 			current->right = current;
 		}else{
-			current->below = double_head; //circular
+			current->below = m; //circular
 		}
     }
     
-    current = double_head;
+    current = m;
     for(int i = -1; i < total_columns; i++){    //criando cabeças das colunas
 
 	    if(i != total_columns-1){
@@ -46,7 +52,7 @@ Matrix* matrix_create( void )
 	    current->column = -1;
 		current->below = current;
         } else {
-			current->right = double_head; //circular
+			current->right = m; //circular
 	    }
 	
 	}
@@ -58,19 +64,19 @@ Matrix* matrix_create( void )
     while(1){
 
 	    scanf("%d", &line);
-		if(line == '.' || line == 0) break;
+		if(line == 0) return m; //talvez deveria poder ser `.` tb, mas bugou
 
 		scanf("%d %d", &column, &info);
 		// localizar line, criar nodo e alterar ponteiros
 
-		current = double_head;
+		current = m;
 		for(int i = 0; i < column; i++)   // descobre cabeça da coluna certa
 		{
 			current = current->right;
 		}
 		Matrix* current_column_head = current;
 
-		current = double_head;
+		current = m;
 		for(int i = 0; i < line; i++)    // descobre cabeça da linha certa 
 		{
 			current = current->below;
@@ -107,7 +113,7 @@ Matrix* matrix_create( void )
 			current->right = previous;
 //
 
-		//printf("added node:\nline: %d\ncolumn: %d\ninfo:%f\n", current->line, current->column, current->info);
+		printf("added node:\nline: %d\ncolumn: %d\ninfo:%f\n", current->line, current->column, current->info);
 
     }
 }
@@ -145,11 +151,27 @@ Matrix* matrix_transpose( Matrix* m )
 
 }
 
-float matrix_getelem( Matrix* m, int x, int y)
+float matrix_getelem(Matrix* m, int x, int y)
 {
     //retorna o valor do elemento (x, y) da matriz m.
-    //void matrix_setelem( Matrix* m, int x, int y, float elem ): 
-    //atribui ao elemento (x, y) da matriz m o valor elem.
+	int line, column;
+	Matrix* current = m;
 
+    for(line = 0; line < x; line++)
+	{
+		current = current->below;
+	}
+
+	for(column = 0; column < y; column++)
+	{
+		current = current->right;
+	}
+
+	printf("%f\n", current->info);
 }
 
+
+void matrix_setelem( Matrix* m, int x, int y, float elem ) 
+{
+	//atribui ao elemento (x, y) da matriz m o valor elem.
+}
