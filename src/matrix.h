@@ -119,7 +119,7 @@ Matrix* matrix_create( void )
 }
 
 
-void matrix_destroy( Matrix* m ) // falta testes
+void matrix_destroy( Matrix* m )
 {
     //devolve todas as células da matriz m para a área de memória disponível.
 	Matrix* previous = NULL;
