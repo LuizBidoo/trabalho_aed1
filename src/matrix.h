@@ -81,7 +81,7 @@ Matrix* matrix_create( void )
 		{
 			current = current->below;
 		}
-		Matrix* current_line_head = current;
+		Matrix* line_head = current;
 
 		///////////////////////////////////////////////////////////////////////////////////////// 
 
@@ -103,7 +103,7 @@ Matrix* matrix_create( void )
 //
 
 // adicionando current->right
-		temp = current_line_head;
+		temp = line_head;
 		while(temp->right->column < column && temp->right->line != -1) 
 		{
 			temp = temp->right;
@@ -119,9 +119,47 @@ Matrix* matrix_create( void )
 }
 
 
-void matrix_destroy( Matrix* m )
+void matrix_destroy( Matrix* m ) // falta testes
 {
     //devolve todas as células da matriz m para a área de memória disponível.
+	Matrix* current = NULL;
+	Matrix* previous = NULL;	
+	Matrix* line_head = NULL;
+
+	while(m->below != m) // deletes everything except column heads;
+	{
+		current = m;
+		previous = m;
+		while(current->below != m)
+		{
+			previous = current;
+			current = current->below;
+		}
+		previous->below = m; // last line is going to be deleted
+
+		line_head = current;
+		previous = current;
+		while(line_head->right != line_head)
+		{
+			while(current->right != line_head)
+			{
+				previous = current;
+				current = current->right;
+			}
+			free(current);
+			previous->right = line_head;
+		}
+		free(line_head);
+	}
+
+	current = m->right;
+	while(current->line != -1) // detecta se voltou pra m
+	{
+		previous = current->right;
+		free(current);
+		current = previous->right;
+	}
+	free(current);
 }
 
 void matrix_print( Matrix* m )
@@ -136,7 +174,6 @@ void matrix_print( Matrix* m )
 		current = current->below;
 		lines++;
 	} 
-
 	printf("%d ", lines);
 
 	current = m;
@@ -145,15 +182,14 @@ void matrix_print( Matrix* m )
 		current = current->right;
 		columns++;
 	} 
-
 	printf("%d\n", columns);
 
-	Matrix* current_line_head = m;
+	Matrix* line_head = m;
 	for(int checked_lines = 0; checked_lines < lines; checked_lines++)
 	{
-		current_line_head = current_line_head->below;
-		current = current_line_head->right;
-		while(current != current_line_head) // prints whole line
+		line_head = line_head->below;
+		current = line_head->right;
+		while(current != line_head) // prints whole line
 		{
 			printf("%d %d %.1f\n", current->line, current->column, current->info);
 			current = current->right;
