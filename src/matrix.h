@@ -127,6 +127,7 @@ void matrix_destroy( Matrix* m )
 void matrix_print( Matrix* m )
 {
     // imprime a matriz m para stdout no mesmo formato usado por matrix_create().
+	//for(int)
 }
 
 Matrix* matrix_add( Matrix* m, Matrix* n )
@@ -154,38 +155,32 @@ Matrix* matrix_transpose( Matrix* m )
 float matrix_getelem(Matrix* m, int x, int y)
 {
     //retorna o valor do elemento (x, y) da matriz m.
-	int line, column;
-	Matrix* current = m;
-
-    for(line = 0; line < x; line++)
+    for(int line = 0; line < x; line++)
 	{
-		current = current->below;
+		m = m->below;
 	}
 
-	for(column = 0; column < y; column++)
+	for(int column = 0; column < y; column++)
 	{
-		current = current->right;
+		m = m->right;
 	}
 
-	return current->info;
+	return m->info;
 }
 
 
 void matrix_setelem( Matrix* m, int x, int y, float elem ) 
 {
 	//atribui ao elemento (x, y) da matriz m o valor elem.
-	int line, column;
-	Matrix* current = m;
-
-    for(line = 0; line < x; line++)
+    for(int line = 0; line < x; line++)
 	{
-		current = current->below;
+		m = m->below;
 	}
 
-	for(column = 0; column < y; column++)
+	for(int column = 0; column < y; column++)
 	{
-		current = current->right;
+		m = m->right;
 	}
 
-	current->info = elem;
+	m->info = elem;
 }
