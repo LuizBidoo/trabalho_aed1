@@ -126,14 +126,14 @@ void matrix_destroy( Matrix* m ) // falta testes
 	while(1)
 	{
 		m = m->right;
-		while(m->line != -1)
+		while(m->line != -1)  // deletes line except head
 		{
 			previous = m;
 			m = m->right;
 			free(previous);
 		}
 
-		previous = m;
+		previous = m; // head of previous line
 		m = m->below; // goes to head of next line
 
 		if(previous->column != -1 || previous->line != -1) // doesnt free double head
@@ -141,7 +141,7 @@ void matrix_destroy( Matrix* m ) // falta testes
 			free(previous);
 		}
 
-		if(m->line == -1 && m->column == -1) // if looped to double head
+		if(m->line == -1 && m->column == -1) // if only double head remaining
 		{
 			free(m);
 			break;
