@@ -167,11 +167,25 @@ float matrix_getelem(Matrix* m, int x, int y)
 		current = current->right;
 	}
 
-	printf("%f\n", current->info);
+	return current->info;
 }
 
 
 void matrix_setelem( Matrix* m, int x, int y, float elem ) 
 {
 	//atribui ao elemento (x, y) da matriz m o valor elem.
+	int line, column;
+	Matrix* current = m;
+
+    for(line = 0; line < x; line++)
+	{
+		current = current->below;
+	}
+
+	for(column = 0; column < y; column++)
+	{
+		current = current->right;
+	}
+
+	current->info = elem;
 }
