@@ -149,7 +149,6 @@ void matrix_print( Matrix* m )
 	printf("%d\n", columns);
 
 	Matrix* current_line_head = m;
-	current = m;
 	for(int checked_lines = 0; checked_lines < lines; checked_lines++)
 	{
 		current_line_head = current_line_head->below;
