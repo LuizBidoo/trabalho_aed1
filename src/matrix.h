@@ -122,45 +122,33 @@ Matrix* matrix_create( void )
 void matrix_destroy( Matrix* m ) // falta testes
 {
     //devolve todas as células da matriz m para a área de memória disponível.
-	Matrix* current = NULL;
-	Matrix* previous = NULL;	
-	Matrix* line_head = NULL;
-
-	while(m->below != m) // deletes everything except column heads;
+	Matrix* previous = NULL;
+	while(1)
 	{
-		current = m;
+		m = m->right;
+		while(m->line != -1)
+		{
+			previous = m;
+			m = m->right;
+			free(previous);
+		}
+
 		previous = m;
-		while(current->below != m)
-		{
-			previous = current;
-			current = current->below;
-		}
-		previous->below = m; // last line is going to be deleted
+		m = m->below; // goes to head of next line
 
-		line_head = current;
-		previous = current;
-		while(line_head->right != line_head)
+		if(previous->column != -1 || previous->line != -1) // doesnt free double head
 		{
-			while(current->right != line_head)
-			{
-				previous = current;
-				current = current->right;
-			}
-			free(current);
-			previous->right = line_head;
+			free(previous);
 		}
-		free(line_head);
-	}
 
-	current = m->right;
-	while(current->line != -1) // detecta se voltou pra m
-	{
-		previous = current->right;
-		free(current);
-		current = previous->right;
+		if(m->line == -1 && m->column == -1) // if looped to double head
+		{
+			free(m);
+			break;
+		}
 	}
-	free(current);
 }
+
 
 void matrix_print( Matrix* m )
 {
