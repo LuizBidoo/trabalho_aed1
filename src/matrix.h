@@ -17,9 +17,9 @@ Matrix* matrix_create( void )
 	int total_columns = 0;
 
     scanf("%d %d", &total_lines, &total_columns);
-	while(total_lines == 0 && total_columns == 0)
+	while(total_lines == 0 || total_columns == 0)
 	{
-		printf("Can't create empty matrix, try again.");
+		printf("Linhas e colunas nao podem ser 0.\n");
 		scanf("%d %d", &total_lines, &total_columns);
 	}
 
@@ -127,7 +127,39 @@ void matrix_destroy( Matrix* m )
 void matrix_print( Matrix* m )
 {
     // imprime a matriz m para stdout no mesmo formato usado por matrix_create().
-	//for(int)
+	int lines = 0;
+	int columns = 0;
+
+	Matrix* current = m;
+	while(current->below != m)
+	{
+		current = current->below;
+		lines++;
+	} 
+
+	printf("%d ", lines);
+
+	current = m;
+	while(current->right != m)
+	{
+		current = current->right;
+		columns++;
+	} 
+
+	printf("%d\n", columns);
+
+	Matrix* current_line_head = m;
+	current = m;
+	for(int checked_lines = 0; checked_lines < lines; checked_lines++)
+	{
+		current_line_head = current_line_head->below;
+		current = current_line_head->right;
+		while(current != current_line_head) // prints whole line
+		{
+			printf("%d %d %.1f\n", current->line, current->column, current->info);
+			current = current->right;
+		}
+	}
 }
 
 Matrix* matrix_add( Matrix* m, Matrix* n )
