@@ -187,8 +187,94 @@ void matrix_print( Matrix* m )
 
 Matrix* matrix_add( Matrix* m, Matrix* n )
 {
-    //recebe como parâmetros as matrizes m e n, 
-    //retornando a soma das mesmas 
+    //recebe como parâmetros duas matrizes e retorna a soma delas
+	int total_lines = 0;
+	int total_columns = 0;
+
+	do{
+		m = m->right;
+		total_lines++;
+	}while(m->line != -1);
+
+	do{
+		m = m->below;
+		total_columns++;
+	}while(m->column != -1);
+
+//alocando cabeças da nova matriz
+	Matrix* new = (Matrix*)malloc(sizeof(Matrix));  // matriz = cabeça dupla
+	new->right = NULL;
+	new->below = NULL;
+	new->line = -1;
+	new->column = -1;
+	
+
+	Matrix* current_new = new;
+
+	for(int i = -1; i < total_lines; i++){  // criando cabeças das linhas
+		if(i != total_lines-1) {
+			current_new->below = (Matrix*)malloc(sizeof(Matrix));
+			current_new = current_new->below;
+			current_new->line = -1;
+			current_new->right = current_new;
+		}else{
+			current_new->below = new; //circular
+		}
+    }
+    
+    current_new = new;
+    for(int i = -1; i < total_columns; i++){    //criando cabeças das colunas
+
+	    if(i != total_columns-1){
+	    current_new->right = (Matrix*)malloc(sizeof(Matrix));
+	    current_new = current_new->right;
+	    current_new->column = -1;
+		current_new->below = current_new;
+        } else {
+			current_new->right = new; //circular
+	    }
+	
+	}
+//
+	Matrix* current_m = m->below->right;
+	Matrix* current_n = n->below->right;
+	Matrix* current_new = n->below;
+	Matrix* current_new_line_head = n->below;
+
+	while(1)
+	{
+		if(current_m->column == -1)
+		{
+			while(current_n->column != -1)
+			{
+
+			}
+		} else if(current_n->column == -1)
+		{
+			while(current_m->column != -1)
+		}
+		if(current_m->column == current_n->column)
+		{
+			current_new->right = (Matrix*)malloc(sizeof(Matrix));
+			current_new = current_new->right;
+
+			current_new->right = current_new_line_head; //circular
+			current_new->line = current_m->line; //could be m or n
+			current_new->column = current_m->column; //could be m or n
+			current_new->info = current_n->info + current_m->info;
+		}
+
+		while(current_m->line < current_n->line && current_m->line != -1)
+		{
+			current_m = current_m->right;
+		}
+
+		while(current_n->line < current_m->line && current_n->line != -1)
+		{
+			current_n = current_n->right;
+		}
+	}
+
     //(a estrutura da matriz retornada deve ser alocada dinamicamente pela própria operação).
 
 }
