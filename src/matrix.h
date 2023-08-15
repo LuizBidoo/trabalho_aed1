@@ -243,16 +243,6 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 	while(1)
 	{
-		if(current_m->column == -1)
-		{
-			while(current_n->column != -1)
-			{
-
-			}
-		} else if(current_n->column == -1)
-		{
-			while(current_m->column != -1)
-		}
 		if(current_m->column == current_n->column)
 		{
 			current_new->right = (Matrix*)malloc(sizeof(Matrix));
@@ -263,15 +253,23 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 			current_new->column = current_m->column; //could be m or n
 			current_new->info = current_n->info + current_m->info;
 		}
-
-		while(current_m->line < current_n->line && current_m->line != -1)
+		while(current_m->line < current_n->line)
 		{
 			current_m = current_m->right;
+			if(current_m->line == -1)
+			{
+
+			}
 		}
 
-		while(current_n->line < current_m->line && current_n->line != -1)
+		while(current_n->line < current_m->line)
 		{
 			current_n = current_n->right;
+
+			if(current_n->line == -1)
+			{
+
+			}
 		}
 	}
 
