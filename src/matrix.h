@@ -254,7 +254,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 			current_new->column = current_m->column; //could be m or n
 			current_new->info = current_n->info + current_m->info;
 		}
-		while(current_m->line < current_n->line)
+		while(current_m->line < current_n->line) // maybe storing lower in a variable can make code more reusable
 		{
 			current_m = current_m->right;
 			if(current_m->line == -1)
