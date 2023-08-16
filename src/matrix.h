@@ -256,6 +256,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 			current_m = current_m->right;
 			current_n = current_n->right;
+
 		if(current_m->column == current_n->column && current_m->column == -1)
 		{
 			current_new = current_new_line_head->below;
@@ -264,30 +265,29 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 			current_n = current_n->below->right;
 		}
 
-		while(current_m->line < current_n->line) //
+		while(current_m->line != current_n->line) //
 		{
 			current_new->right = (Matrix*)malloc(sizeof(Matrix));
 			current_new = current_new->right;
 
 			current_new->right = current_new_line_head; 
-			current_new->line = current_m->line; 
-			current_new->column = current_m->column; 
-			current_new->info = current_m->info;
 
-			current_m = current_m->right;
-		}
+			if(current_m->line < current_n->line)
+			{
+				current_new->line = current_m->line; 
+				current_new->column = current_m->column; 
+				current_new->info = current_m->info;
 
-		while(current_n->line < current_m->line)
-		{
-			current_new->right = (Matrix*)malloc(sizeof(Matrix));
-			current_new = current_new->right;
+				current_m = current_m->right;
+			}  else if(current_n->line < current_m->line)
+			{
+				current_new->right = current_new_line_head; 
+				current_new->line = current_n->line; 
+				current_new->column = current_n->column; 
+				current_new->info = current_n->info;
 
-			current_new->right = current_new_line_head; 
-			current_new->line = current_n->line; 
-			current_new->column = current_n->column; 
-			current_new->info = current_n->info;
-
-			current_n = current_n->right;
+				current_n = current_n->right;				
+			}
 		}
 	}
 
