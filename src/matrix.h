@@ -244,7 +244,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 	while(current_new_line_head->column != -1) // aloca tudo exceto os campos below dos novos nodos
 	{
-		if(current_m->column == current_n->column)
+		if(current_m->column == current_n->column && current_m->column != -1)
 		{
 			current_new->right = (Matrix*)malloc(sizeof(Matrix));
 			current_new = current_new->right;
@@ -253,8 +253,18 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 			current_new->line = current_m->line; //could be m or n
 			current_new->column = current_m->column; //could be m or n
 			current_new->info = current_n->info + current_m->info;
-		}
-		while(current_m->line < current_n->line) // maybe storing lower in a variable can make code more reusable
+
+			current_m = current_m->right;
+			current_n = current_n->right;
+		} else if(current_m->column == current_n->column)
+			{
+				current_new = current_new_line_head->below;
+				current_new_line_head = current_new_line_head->below;
+				current_m = current_m->below;
+				current_n = current_n->below;
+			}
+
+		while(current_m->line < current_n->line) //
 		{
 			current_m = current_m->right;
 			if(current_m->line == -1)
