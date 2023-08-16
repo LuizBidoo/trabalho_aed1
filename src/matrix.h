@@ -242,7 +242,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 	Matrix* current_new_line_head = new->below;
 	Matrix* current_new_column_head = new->right;
 
-	while(current_new_line_head->column != -1)
+	while(current_new_line_head->column != -1) // aloca tudo exceto os campos below dos novos nodos
 	{
 		if(current_m->column == current_n->column)
 		{
@@ -300,7 +300,6 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 		}
 	}
 
-    //(a estrutura da matriz retornada deve ser alocada dinamicamente pela própria operação).
 
 }
 
