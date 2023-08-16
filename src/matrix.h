@@ -260,8 +260,8 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 			{
 				current_new = current_new_line_head->below;
 				current_new_line_head = current_new_line_head->below;
-				current_m = current_m->below;
-				current_n = current_n->below;
+				current_m = current_m->below->right;
+				current_n = current_n->below->right;
 			}
 
 		while(current_m->line < current_n->line) //
@@ -281,8 +281,8 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 				}
 				current_new = current_new_line_head->below;
 				current_new_line_head = current_new_line_head->below;
-				current_m = current_m->below;
-				current_n = current_n->below;
+				current_m = current_m->below->right;
+				current_n = current_n->below->right;
 			}
 		}
 
