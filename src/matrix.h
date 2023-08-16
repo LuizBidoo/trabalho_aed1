@@ -256,7 +256,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 			current_m = current_m->right;
 			current_n = current_n->right;
-		} else if(current_m->column == current_n->column)
+		} else if(current_m->column == current_n->column && current_m->column == -1)
 			{
 				current_new = current_new_line_head->below;
 				current_new_line_head = current_new_line_head->below;
