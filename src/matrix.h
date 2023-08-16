@@ -238,17 +238,18 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 //
 	Matrix* current_m = m->below->right;
 	Matrix* current_n = n->below->right;
-	Matrix* current_new = n->below;
-	Matrix* current_new_line_head = n->below;
+	Matrix* current_new = new->below;
+	Matrix* current_new_line_head = new->below;
+	Matrix* current_new_column_head = new->right;
 
-	while(1)
+	while(current_new_line_head->column != -1)
 	{
 		if(current_m->column == current_n->column)
 		{
 			current_new->right = (Matrix*)malloc(sizeof(Matrix));
 			current_new = current_new->right;
 
-			current_new->right = current_new_line_head; //circular
+			current_new->right = current_new_line_head; 
 			current_new->line = current_m->line; //could be m or n
 			current_new->column = current_m->column; //could be m or n
 			current_new->info = current_n->info + current_m->info;
@@ -258,7 +259,20 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 			current_m = current_m->right;
 			if(current_m->line == -1)
 			{
+				while(current_n->line != -1)
+				{
+					current_new->right = (Matrix*)malloc(sizeof(Matrix));
+					current_new = current_new->right;
 
+					current_new->right = current_new_line_head; 
+					current_new->line = current_n->line; 
+					current_new->column = current_n->column; 
+					current_new->info = current_n->info;
+				}
+				current_new = current_new_line_head->below;
+				current_new_line_head = current_new_line_head->below;
+				current_m = current_m->below;
+				current_n = current_n->below;
 			}
 		}
 
@@ -268,7 +282,20 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 			if(current_n->line == -1)
 			{
+				while(current_m->line != -1)
+				{
+					current_new->right = (Matrix*)malloc(sizeof(Matrix));
+					current_new = current_new->right;
 
+					current_new->right = current_new_line_head; 
+					current_new->line = current_m->line; 
+					current_new->column = current_m->column; 
+					current_new->info = current_m->info;
+				}
+				current_new = current_new_line_head->below;
+				current_new_line_head = current_new_line_head->below;
+				current_m = current_m->below;
+				current_n = current_n->below;
 			}
 		}
 	}
