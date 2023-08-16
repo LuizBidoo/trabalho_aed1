@@ -236,11 +236,11 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 	
 	}
 //
+	current_new = new->below;
 	Matrix* current_m = m->below->right;
 	Matrix* current_n = n->below->right;
-	Matrix* current_new = new->below;
 	Matrix* current_new_line_head = new->below;
-	Matrix* current_new_column_head = new->right;
+
 
 	while(current_new_line_head->column != -1) // aloca tudo exceto os campos below dos novos nodos
 	{
@@ -282,6 +282,30 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 				current_n = current_n->right;
 			}
 		}
+	}
+	current_new_line_head = new;	
+	Matrix* current_new_column_head = new;	
+	Matrix* previous = current_new_column_head;
+	int current_new_column = 0;
+	while(1) //nao sei se funciona
+	{
+		current_new_column_head = current_new_column_head->right;	
+		if(current_new_column_head->line == -1) break;			
+		current_new_line_head = current_new_line_head->below;
+		previous = current_new_column_head;
+		current_new = current_new_line_head->right;
+		current_new_column++;		
+		while(current_new_line_head->column != -1)
+		{
+			if(current_new->column == current_new_column)
+			{
+				previous->below = current_new;
+				previous = current_new;
+			}
+			current_new_line_head = current_new_line_head->below;
+			current_new = current_new_line_head->right;
+		}
+
 	}
 
 
