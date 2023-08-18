@@ -193,6 +193,7 @@ void matrix_print( Matrix* m )
 	}
 }
 
+
 Matrix* matrix_add( Matrix* m, Matrix* n )
 {
     //recebe como parâmetros duas matrizes e retorna a soma delas
@@ -211,56 +212,39 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 		total_columns++;
 	}
 
-//alocando cabeças da nova matriz
 	Matrix* new = matrix_create_all_heads(total_lines, total_columns);
-//
+
+
 	Matrix* current_new = new->below;
 	Matrix* current_m = m->below->right;
 	Matrix* current_n = n->below->right;
 	Matrix* current_new_line_head = new->below;
 
-
-	while(current_new_line_head->column != -1) // aloca tudo exceto os campos below dos novos nodos
+	while(current_m->column != -1 && current_n->column != -1) // aloca tudo exceto os campos below dos novos nodos
 	{
-		if(current_m->line == -1 && current_n->line == -1)
-		{
-			current_new = current_new_line_head->below;
-			current_new_line_head = current_new_line_head->below;
-			current_m = current_m->below->right;
-			current_n = current_n->below->right;
-		}
 
 		while(current_m->line != -1 || current_n->line != -1)
 		{
 			current_new->right = (Matrix*)malloc(sizeof(Matrix));
 			current_new = current_new->right;
 			current_new->right = current_new_line_head; 
-
-			if(current_m->column != -1 && current_n->column == -1)
-			{
-				current_new->line = current_m->line; 
-				current_new->column = current_m->column; 
-				current_new->info = current_m->info;
-
-			}  else if(current_n->column != -1 && current_m->column == -1)
-			{
-				current_new->line = current_n->line; 
-				current_new->column = current_n->column; 
-				current_new->info = current_n->info;					
-			}  else if(current_m->column < current_n->column)
+			
+			if(current_n->line == -1 || current_m->column < current_n->column)
 			{
 				current_new->line = current_m->line; 
 				current_new->column = current_m->column; 
 				current_new->info = current_m->info;
 
 				current_m = current_m->right;
-			}  else if(current_n->column < current_m->column)
+
+			}  else if(current_m->line == -1 || current_n->column < current_m->column)
 			{
 				current_new->line = current_n->line; 
 				current_new->column = current_n->column; 
 				current_new->info = current_n->info;
 
-				current_n = current_n->right;				
+				current_n = current_n->right;
+
 			}  else // when equal
 			{
 				current_new->line = current_m->line; //could be m or n
@@ -272,7 +256,12 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 			}
 		}
 
+		current_new = current_new_line_head->below;
+		current_new_line_head = current_new_line_head->below;
+		current_m = current_m->below->right;
+		current_n = current_n->below->right;
 	}
+
 	current_new_line_head = new;	
 	Matrix* current_new_column_head = new;	
 	Matrix* previous = current_new_column_head;
@@ -304,19 +293,43 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 }
 
-Matrix* matrix_multiply( Matrix* m, Matrix* n)
+/*Matrix* matrix_transpose( Matrix* m )
 {
-    //recebe como parâmetros as matrizes m e n, retornando a multiplicação das mesmas 
-    //(a estrutura da matriz retornada deve ser alocada dinamicamente pela própria operação).
-}
+   int total_lines = 0, total_columns = 0; // contagem para criar a nova transposta
+	
+	Matrix* current = m;
+	while(current->right != m) // contadores serão invertidos
+	{
+		current = current->right;
+		total_lines++;
+	} 
+	
+	current = m;
+	while(current->below != m)
+	{
+		current = current->below;
+		total_columns++;
+	} 
 
-Matrix* matrix_transpose( Matrix* m )
-{
-    //recebe como parâmetro a matriz m, 
+	Matrix* new = matrix_create_all_heads(total_lines, total_columns); // cria a nova matriz transposta
+
+	
+	Matrix* current_new = new->right; // está apontando para primeira cabeça de coluna da new (vai andar pela linha)
+	Matrix* current_m = m->below->right; // primeiro elemento da matriz m
+	Matrix* current_new_line_head = new->right; // primeira cabeça de linha da new matrix
+
+	while(current_new_line_head->column != -1){
+		if(current_m == -1 || ){
+
+		}
+	}
+	// enquanto a linha da antiga matriz for diferente de -1 e 0 (esse sendo um teste pra ver se algo ja passou)
+	// vai colocando na coluna 
+	//recebe como parâmetro a matriz m, 
     //retornando mT – a transposta de m 
     //(a estrutura da matriz retornada deve ser alocada dinamicamente pela própria operação).
 
-}
+}*/
 
 float matrix_getelem(Matrix* m, int x, int y)
 {
