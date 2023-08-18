@@ -198,16 +198,18 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
     //recebe como parâmetros duas matrizes e retorna a soma delas
 	int total_lines = 0;
 	int total_columns = 0;
-
-	do{
+	
+	m = m->right;
+	while(m->line != -1){
 		m = m->right;
 		total_lines++;
-	}while(m->line != -1);
+	}
 
-	do{
+	m = m->below;
+	while(m->column != -1){
 		m = m->below;
 		total_columns++;
-	}while(m->column != -1);
+	}
 
 //alocando cabeças da nova matriz
 	Matrix* new = matrix_create_all_heads(total_lines, total_columns);
@@ -220,7 +222,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 	while(current_new_line_head->column != -1) // aloca tudo exceto os campos below dos novos nodos
 	{
-		if(current_m->column == -1 && current_n->column == -1)
+		if(current_m->line == -1 && current_n->line == -1)
 		{
 			current_new = current_new_line_head->below;
 			current_new_line_head = current_new_line_head->below;
