@@ -230,7 +230,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 			current_n = current_n->below->right;
 		}
 
-		while(current_m->line != -1 || current_n->line != -1)
+		while(current_m->line != -1 && current_n->line != -1)
 		{
 			current_new->right = (Matrix*)malloc(sizeof(Matrix));
 			current_new = current_new->right;
@@ -260,6 +260,16 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 				current_n = current_n->right;
 			}
 		}
+		
+		while(current_m->column != -1 && current_n->column == -1)
+		{
+
+		}
+		while(current_n->column != -1 && current_m->column == -1)
+		{
+
+		}
+
 	}
 	current_new_line_head = new;	
 	Matrix* current_new_column_head = new;	
