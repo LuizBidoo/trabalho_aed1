@@ -10,26 +10,14 @@ typedef struct matrix {
 	float info;
 }Matrix;
 
-Matrix* matrix_create( void )
+Matrix* matrix_create_all_heads(int total_lines, int total_columns)
 {
-	//Le de stdin os elementos diferentes de 0 e monta a matriz
-    int total_lines = 0;
-	int total_columns = 0;
-
-    scanf("%d %d", &total_lines, &total_columns);
-	while(total_lines == 0 || total_columns == 0)
-	{
-		printf("Linhas e colunas nao podem ser 0.\n");
-		scanf("%d %d", &total_lines, &total_columns);
-	}
-
 	Matrix* m = (Matrix*)malloc(sizeof(Matrix));  // matriz = cabeça dupla
 	m->right = NULL;
 	m->below = NULL;
 	m->line = -1;
 	m->column = -1;
 	
-
 	Matrix* current = m;
 
 	for(int i = -1; i < total_lines; i++){  // criando cabeças das linhas
@@ -57,9 +45,29 @@ Matrix* matrix_create( void )
 	
 	}
 
+	return m;
+}
+
+Matrix* matrix_create( void )
+{
+	//Le de stdin os elementos diferentes de 0 e monta a matriz
+    int total_lines = 0;
+	int total_columns = 0;
+
+    scanf("%d %d", &total_lines, &total_columns);
+	while(total_lines == 0 || total_columns == 0)
+	{
+		printf("Linhas e colunas nao podem ser 0.\n");
+		scanf("%d %d", &total_lines, &total_columns);
+	}
+
+
+	Matrix* m = matrix_create_all_heads(total_lines, total_columns);
+
     int line = 0;
     int column = 0;
     int info = 0;
+	Matrix* current = m;
 
     while(1){
 
@@ -202,41 +210,9 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 	}while(m->column != -1);
 
 //alocando cabeças da nova matriz
-	Matrix* new = (Matrix*)malloc(sizeof(Matrix));  // matriz = cabeça dupla
-	new->right = NULL;
-	new->below = NULL;
-	new->line = -1;
-	new->column = -1;
-	
-
-	Matrix* current_new = new;
-
-	for(int i = -1; i < total_lines; i++){  // criando cabeças das linhas
-		if(i != total_lines-1) {
-			current_new->below = (Matrix*)malloc(sizeof(Matrix));
-			current_new = current_new->below;
-			current_new->line = -1;
-			current_new->right = current_new;
-		}else{
-			current_new->below = new; //circular
-		}
-    }
-    
-    current_new = new;
-    for(int i = -1; i < total_columns; i++){    //criando cabeças das colunas
-
-	    if(i != total_columns-1){
-	    current_new->right = (Matrix*)malloc(sizeof(Matrix));
-	    current_new = current_new->right;
-	    current_new->column = -1;
-		current_new->below = current_new;
-        } else {
-			current_new->right = new; //circular
-	    }
-	
-	}
+	Matrix* new = matrix_create_all_heads(total_lines, total_columns);
 //
-	current_new = new->below;
+	Matrix* current_new = new->below;
 	Matrix* current_m = m->below->right;
 	Matrix* current_n = n->below->right;
 	Matrix* current_new_line_head = new->below;
@@ -290,10 +266,12 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 	while(1) //nao sei se funciona
 	{
 		current_new_column_head = current_new_column_head->right;	
-		if(current_new_column_head->line == -1) break;			
+		if(current_new_column_head->line == -1) break;
+
 		current_new_line_head = current_new_line_head->below;
 		previous = current_new_column_head;
 		current_new = current_new_line_head->right;
+
 		current_new_column++;		
 		while(current_new_line_head->column != -1)
 		{
@@ -308,6 +286,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 	}
 
+	return new;
 
 }
 
