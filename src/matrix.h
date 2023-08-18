@@ -266,7 +266,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 	Matrix* current_new_column_head = new;	
 	Matrix* previous = current_new_column_head;
 	int current_new_column = 0;
-	while(1) //nao sei se funciona
+	while(1) //ainda nao funciona
 	{
 		current_new_column_head = current_new_column_head->right;	
 		if(current_new_column_head->line == -1) break;
