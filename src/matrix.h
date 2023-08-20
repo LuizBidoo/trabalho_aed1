@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <ctype.h>
 
 typedef struct matrix {
 	struct matrix* right;
@@ -300,8 +299,9 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 }
 
-/*Matrix* matrix_transpose( Matrix* m )
+Matrix* matrix_transpose( Matrix* m )
 {
+	//retorna mT – a transposta de m 
    int total_lines = 0, total_columns = 0; // contagem para criar a nova transposta
 	
 	Matrix* current = m;
@@ -318,25 +318,35 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 		total_columns++;
 	} 
 
-	Matrix* new = matrix_create_all_heads(total_lines, total_columns); // cria a nova matriz transposta
+	Matrix* new = matrix_create_all_heads(total_lines, total_columns); 
 
 	
-	Matrix* current_new = new->right; // está apontando para primeira cabeça de coluna da new (vai andar pela linha)
-	Matrix* current_m = m->below->right; // primeiro elemento da matriz m
-	Matrix* current_new_line_head = new->right; // primeira cabeça de linha da new matrix
+	Matrix* current_new = new->below;
+	Matrix* current_new_line_head = new->below;
+	Matrix* current_m = m->right->below; 
+	while(current_m->line != -1)
+	{
+		while(current_m->column != -1)
+		{
+			current_new->right = (Matrix*)malloc(sizeof(Matrix));
+			current_new = current_new->right;
 
-	while(current_new_line_head->column != -1){
-		if(current_m == -1 || ){
+			current_new->column = current_m->line;
+			current_new->line = current_m->column;
+			current_new->info = current_m->info;
+			current_new->right = current_new_line_head;
 
+			current_m = current_m->below;
 		}
+		current_m = current_m->right->below;
+		current_new_line_head = current_new_line_head->below;
+		current_new = current_new_line_head;
 	}
-	// enquanto a linha da antiga matriz for diferente de -1 e 0 (esse sendo um teste pra ver se algo ja passou)
-	// vai colocando na coluna 
-	//recebe como parâmetro a matriz m, 
-    //retornando mT – a transposta de m 
-    //(a estrutura da matriz retornada deve ser alocada dinamicamente pela própria operação).
 
-}*/
+	matrix_insert_below_camps( new );
+
+	return new;
+}
 
 float matrix_getelem(Matrix* m, int x, int y)
 {
