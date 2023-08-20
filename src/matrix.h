@@ -320,37 +320,17 @@ Matrix* matrix_multiply( Matrix* m, Matrix* n )
 	Matrix* current_m_line_head = m->below;
 	Matrix* current_n = n->right->below;
 	Matrix* current_n_column_head = n->right;
+	Matrix* temp;
 	int sum = 0;	
 	while(current_m_line_head != m)
 	{
 		while(current_m->column == current_n->line)
 		{
-			if(current_m->line != -1 && current_n->column != -1)
-			{
-				sum = (current_m->info * current_n->info) + sum;
-				current_m = current_m->right;
-				current_n = current_n->below;
-			}
-			if(current_m->line == -1 || current_n->column == -1) //maybe needs to be somewhere else because they dont necessairly have to be inside the bigger while
-			{
-				if(sum != 0)
-				{
-					current_new->right = (Matrix*)malloc(sizeof(Matrix));
-					current_new = current_new->right;
+			if(current_m->line == -1 || current_n->column == -1) break;
 
-					current_new->line = current_n->below->column;
-					current_new->column = current_m->right->line;
-					current_new->right = current_new_line_head;
-					current_new->info = sum;
-					sum = 0;
-				}
-
-				current_m_line_head = current_m_line_head->below;
-				current_m = current_m_line_head->right;
-				current_n_column_head = current_n_column_head->below;
-				current_n = current_n_column_head->right;
-				break;
-			}	
+			sum = (current_m->info * current_n->info) + sum;
+			current_m = current_m->right;
+			current_n = current_n->below;
 		}
 
 		while(current_m->column != current_n->line)
@@ -365,8 +345,41 @@ Matrix* matrix_multiply( Matrix* m, Matrix* n )
 				current_n = current_n->below;
 			}
 		}
-	
+
+		if(current_m->line == -1 || current_n->column == -1)
+		{
+			if(sum != 0)
+			{
+				current_new->right = (Matrix*)malloc(sizeof(Matrix));
+				temp = current_new->right;
+				
+				temp->line = current_n->below->column;
+				temp->column = current_m->right->line;
+				temp->right = current_new_line_head;
+				temp->info = sum;
+				current_new->right = current_new;
+				sum = 0;
+			}
+
+			current_n_column_head = current_n_column_head->right;
+			if(current_n_column_head == n)
+			{
+				current_n_column_head = current_n_column_head->right;
+				current_m_line_head = current_m_line_head->below;
+				current_new_line_head = current_new_line_head->below;
+
+				current_new = current_new_line_head;
+			}  else{
+				current_new = current_new->right;
+			}
+			current_m = current_m_line_head->right;
+			current_n = current_n_column_head->below;
+
+		}	
 	}
+
+	matrix_insert_below_camps(new); 
+
 	return new;
 }
 
