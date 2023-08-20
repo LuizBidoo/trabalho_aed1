@@ -310,7 +310,7 @@ Matrix* matrix_multiply( Matrix* m, Matrix* n )
 	int total_columns_n = 0;
 
 	count_lines_and_columns(&total_lines_m, &total_columns_m, m);
-	count_lines_and_columns(&total_lines_n, &total_lines_n, m);
+	count_lines_and_columns(&total_lines_n, &total_columns_n, m);
 
 	Matrix* new = matrix_create_all_heads(total_lines_m, total_columns_n);
 
@@ -320,7 +320,6 @@ Matrix* matrix_multiply( Matrix* m, Matrix* n )
 	Matrix* current_m_line_head = m->below;
 	Matrix* current_n = n->right->below;
 	Matrix* current_n_column_head = n->right;
-	Matrix* temp;
 	int sum = 0;	
 	while(current_m_line_head != m)
 	{
@@ -351,13 +350,12 @@ Matrix* matrix_multiply( Matrix* m, Matrix* n )
 			if(sum != 0)
 			{
 				current_new->right = (Matrix*)malloc(sizeof(Matrix));
-				temp = current_new->right;
-				
-				temp->line = current_n->below->column;
-				temp->column = current_m->right->line;
-				temp->right = current_new_line_head;
-				temp->info = sum;
-				current_new->right = current_new;
+				current_new = current_new->right;
+
+				current_new->line = current_m->right->line;
+				current_new->column = current_n->below->column;
+				current_new->right = current_new_line_head;
+				current_new->info = sum;
 				sum = 0;
 			}
 
@@ -369,8 +367,6 @@ Matrix* matrix_multiply( Matrix* m, Matrix* n )
 				current_new_line_head = current_new_line_head->below;
 
 				current_new = current_new_line_head;
-			}  else{
-				current_new = current_new->right;
 			}
 			current_m = current_m_line_head->right;
 			current_n = current_n_column_head->below;
