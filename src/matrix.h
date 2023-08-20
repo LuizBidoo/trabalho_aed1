@@ -157,7 +157,6 @@ Matrix* matrix_create( void )
     }
 }
 
-
 void matrix_destroy( Matrix* m )
 {
     //devolve todas as células da matriz m para a área de memória disponível.
@@ -187,7 +186,6 @@ void matrix_destroy( Matrix* m )
 		}
 	}
 }
-
 
 void matrix_print( Matrix* m )
 {
@@ -223,7 +221,6 @@ void matrix_print( Matrix* m )
 		}
 	}
 }
-
 
 Matrix* matrix_add( Matrix* m, Matrix* n )
 {
@@ -299,6 +296,12 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 }
 
+Matrix* matrix_multiply( Matrix* m, Matrix* n )
+{
+	//recebe como parâmetros as matrizes m e n, retornando a multiplicação das mesmas 
+
+}
+
 Matrix* matrix_transpose( Matrix* m )
 {
 	//retorna mT – a transposta de m 
@@ -363,7 +366,6 @@ float matrix_getelem(Matrix* m, int x, int y)
 
 	return m->info;
 }
-
 
 void matrix_setelem( Matrix* m, int x, int y, float elem ) 
 {
