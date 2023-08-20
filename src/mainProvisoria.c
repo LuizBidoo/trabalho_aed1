@@ -6,7 +6,8 @@ int main( void ) {
     matrix_print(A);
     Matrix *B = matrix_create();
     matrix_print(B);
-    Matrix* C = matrix_add(A, B);
+    Matrix* C = matrix_multiply(A, B);
+    matrix_print(C);
     matrix_destroy(C);
     matrix_destroy(B);
     matrix_destroy(A);
