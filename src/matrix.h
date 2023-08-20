@@ -9,6 +9,21 @@ typedef struct matrix {
 	float info;
 }Matrix;
 
+void count_lines_and_columns( int* total_lines, int* total_columns, Matrix* m )
+{
+	m = m->right;
+	while(m->line != -1){
+		m = m->right;
+		*total_lines = *total_lines + 1;
+	}
+
+	m = m->below;
+	while(m->column != -1){
+		m = m->below;
+		*total_columns = *total_columns + 1;
+	}	
+}
+
 Matrix* matrix_create_all_heads( int total_lines, int total_columns )
 {
 	Matrix* m = (Matrix*)malloc(sizeof(Matrix));  // matriz = cabeça dupla
@@ -228,17 +243,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 	int total_lines = 0;
 	int total_columns = 0;
 	
-	m = m->right;
-	while(m->line != -1){
-		m = m->right;
-		total_lines++;
-	}
-
-	m = m->below;
-	while(m->column != -1){
-		m = m->below;
-		total_columns++;
-	}
+	count_lines_and_columns(&total_lines,&total_columns, m);
 
 	Matrix* new = matrix_create_all_heads(total_lines, total_columns);
 
