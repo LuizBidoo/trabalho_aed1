@@ -103,7 +103,7 @@ Matrix* matrix_create( void )
     scanf("%d %d", &total_lines, &total_columns);
 	while(total_lines == 0 || total_columns == 0)
 	{
-		printf("Linhas e colunas nao podem ser 0.\n");
+		printf("Nem linhas nem colunas podem ser 0.\n");
 		scanf("%d %d", &total_lines, &total_columns);
 	}
 
@@ -304,7 +304,70 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 Matrix* matrix_multiply( Matrix* m, Matrix* n )
 {
 	//recebe como parâmetros as matrizes m e n, retornando a multiplicação das mesmas 
+	int total_lines_m = 0;
+	int total_columns_m = 0;
+	int total_lines_n = 0;
+	int total_columns_n = 0;
 
+	count_lines_and_columns(&total_lines_m, &total_columns_m, m);
+	count_lines_and_columns(&total_lines_n, &total_lines_n, m);
+
+	Matrix* new = matrix_create_all_heads(total_lines_m, total_columns_n);
+
+	Matrix* current_new = new->below;
+	Matrix* current_new_line_head = new->below;
+	Matrix* current_m = m->below->right;
+	Matrix* current_m_line_head = m->below;
+	Matrix* current_n = n->right->below;
+	Matrix* current_n_column_head = n->right;
+	int sum = 0;	
+	while(current_m_line_head != m)
+	{
+		while(current_m->column == current_n->line)
+		{
+			if(current_m->line != -1 && current_n->column != -1)
+			{
+				sum = (current_m->info * current_n->info) + sum;
+				current_m = current_m->right;
+				current_n = current_n->below;
+			}
+			if(current_m->line == -1 || current_n->column == -1)
+			{
+				if(sum != 0)
+				{
+					current_new->right = (Matrix*)malloc(sizeof(Matrix));
+					current_new = current_new->right;
+
+					current_new->line = current_n->below->column;
+					current_new->column = current_m->right->line;
+					current_new->right = current_new_line_head;
+					current_new->info = sum;
+					sum = 0;
+				}
+
+				current_m_line_head = current_m_line_head->below;
+				current_m = current_m_line_head->right;
+				current_n_column_head = current_n_column_head->below;
+				current_n = current_n_column_head->right;
+				break;
+			}	
+		}
+
+		while(current_m->column != current_n->line)
+		{
+			if(current_m->line == -1 || current_n->column == -1) break;
+
+			if(current_m->column < current_n->line)
+			{
+				current_m = current_m->right;
+			} else if(current_n->line < current_m->column)
+			{
+				current_n = current_n->below;
+			}
+		}
+	
+	}
+	return new;
 }
 
 Matrix* matrix_transpose( Matrix* m )
