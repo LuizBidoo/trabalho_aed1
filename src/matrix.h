@@ -262,31 +262,34 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 		current_n = current_n->below->right;
 	}
 
-	current_new_line_head = new;	
-	Matrix* current_new_column_head = new;	
+//for taking care of below camp
+	current_new = new->below;
+	current_new_line_head = new->below;
+	Matrix* current_new_column_head = new->right;	
 	Matrix* previous = current_new_column_head;
-	int current_new_column = 0;
-	while(1) //ainda nao funciona
+	int current_column = 1;
+	while(current_new_column_head->line != -1)
 	{
-		current_new_column_head = current_new_column_head->right;	
-		if(current_new_column_head->line == -1) break;
-
-		current_new_line_head = current_new_line_head->below;
-		previous = current_new_column_head;
-		current_new = current_new_line_head->right;
-
-		current_new_column++;		
 		while(current_new_line_head->column != -1)
 		{
-			if(current_new->column == current_new_column)
+			do{
+				current_new = current_new->right;
+			}while(current_new->column != current_column && current_new->line != -1);
+
+			if(current_new->column == current_column)
 			{
 				previous->below = current_new;
+				current_new->below = current_new_column_head;
 				previous = current_new;
 			}
 			current_new_line_head = current_new_line_head->below;
-			current_new = current_new_line_head->right;
+			current_new = current_new_line_head;
 		}
-
+		current_new_line_head = current_new_line_head->below;
+		current_new_column_head = current_new_column_head->right;
+		previous = current_new_column_head;
+		current_column++;
+		current_new = current_new_line_head;
 	}
 
 	return new;
