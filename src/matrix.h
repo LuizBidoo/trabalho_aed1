@@ -331,7 +331,7 @@ Matrix* matrix_multiply( Matrix* m, Matrix* n )
 				current_m = current_m->right;
 				current_n = current_n->below;
 			}
-			if(current_m->line == -1 || current_n->column == -1)
+			if(current_m->line == -1 || current_n->column == -1) //maybe needs to be somewhere else because they dont necessairly have to be inside the bigger while
 			{
 				if(sum != 0)
 				{
