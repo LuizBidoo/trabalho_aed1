@@ -10,7 +10,7 @@ typedef struct matrix {
 	float info;
 }Matrix;
 
-Matrix* matrix_create_all_heads(int total_lines, int total_columns)
+Matrix* matrix_create_all_heads( int total_lines, int total_columns )
 {
 	Matrix* m = (Matrix*)malloc(sizeof(Matrix));  // matriz = cabeça dupla
 	m->right = NULL;
@@ -46,6 +46,38 @@ Matrix* matrix_create_all_heads(int total_lines, int total_columns)
 	}
 
 	return m;
+}
+
+void matrix_insert_below_camps( Matrix* new )
+{
+	Matrix* current_new = new->below;
+	Matrix* current_new_line_head = new->below;
+	Matrix* current_new_column_head = new->right;	
+	Matrix* previous = current_new_column_head;
+	int current_column = 1;
+	while(current_new_column_head->line != -1)
+	{
+		while(current_new_line_head->column != -1)
+		{
+			do{
+				current_new = current_new->right;
+			}while(current_new->column != current_column && current_new->line != -1);
+
+			if(current_new->column == current_column)
+			{
+				previous->below = current_new;
+				current_new->below = current_new_column_head;
+				previous = current_new;
+			}
+			current_new_line_head = current_new_line_head->below;
+			current_new = current_new_line_head;
+		}
+		current_new_line_head = current_new_line_head->below;
+		current_new_column_head = current_new_column_head->right;
+		previous = current_new_column_head;
+		current_column++;
+		current_new = current_new_line_head;
+	}
 }
 
 Matrix* matrix_create( void )
@@ -262,35 +294,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 		current_n = current_n->below->right;
 	}
 
-//for taking care of below camp
-	current_new = new->below;
-	current_new_line_head = new->below;
-	Matrix* current_new_column_head = new->right;	
-	Matrix* previous = current_new_column_head;
-	int current_column = 1;
-	while(current_new_column_head->line != -1)
-	{
-		while(current_new_line_head->column != -1)
-		{
-			do{
-				current_new = current_new->right;
-			}while(current_new->column != current_column && current_new->line != -1);
-
-			if(current_new->column == current_column)
-			{
-				previous->below = current_new;
-				current_new->below = current_new_column_head;
-				previous = current_new;
-			}
-			current_new_line_head = current_new_line_head->below;
-			current_new = current_new_line_head;
-		}
-		current_new_line_head = current_new_line_head->below;
-		current_new_column_head = current_new_column_head->right;
-		previous = current_new_column_head;
-		current_column++;
-		current_new = current_new_line_head;
-	}
+	matrix_insert_below_camps(new);
 
 	return new;
 
