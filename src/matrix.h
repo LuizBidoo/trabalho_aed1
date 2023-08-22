@@ -431,31 +431,41 @@ Matrix* matrix_transpose( Matrix* m )
 float matrix_getelem(Matrix* m, int x, int y)
 {
     //retorna o valor do elemento (x, y) da matriz m.
-    for(int line = 0; line < x; line++)
-	{
-		m = m->below;
-	}
-
-	for(int column = 0; column < y; column++)
+    for(int line = 0; line < x; line++) // anda na linha de cabeças
 	{
 		m = m->right;
 	}
 
-	return m->info;
+	for(int column = 0; column < y; column++) // desce na linha
+	{
+		m = m->below;
+	}
+
+	if(m->column == y && m->line = x)
+	{
+		return m->info;
+	}else{
+		return 0;
+	}
 }
 
 void matrix_setelem( Matrix* m, int x, int y, float elem ) 
 {
 	//atribui ao elemento (x, y) da matriz m o valor elem.
-    for(int line = 0; line < x; line++)
-	{
-		m = m->below;
-	}
 
-	for(int column = 0; column < y; column++)
+	Matrix* previous_m_line, previous_m_column;
+
+    for(int line = 0; line < x; line++) // anda na linha de cabeças
 	{
+		previous_m_line = m;
 		m = m->right;
 	}
 
+	for(int column = 0; column < y; column++) // desce na linha
+	{
+		previous_m_column = m;
+		m = m->below;
+	}
+	
 	m->info = elem;
 }
