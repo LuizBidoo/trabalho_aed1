@@ -509,7 +509,7 @@ void matrix_setelem( Matrix* m, int x, int y, float elem )
 			previous_m_column->below->column = y;
 			previous_m_column->below->info = elem;
 			previous_m_column->below->below = temp;
-			previous_m_column->right = previous_m_line;
+			previous_m_column->right = previous_m_line->right;
 		}
 	} else if(current_m->column == y) // não preciso fazer o teste pro x, pois é garantido
 	{
@@ -518,14 +518,8 @@ void matrix_setelem( Matrix* m, int x, int y, float elem )
 			previous_m_column->below = current_m->below;
 			previous_m_line->right = current_m->right;
 			free(current_m);
+		}  else{
+			current_m->info = elem;
 		}
-	}
-	if(current_m->column - previous_m_column->column != 1)
-	{
-		Matrix* newNode = (Matrix*)malloc(sizeof(Matrix));
-		newNode->line = x;
-		newNode->column = y;
-		newNode->info = elem;
-		matrix_insert_below_camps(newNode);
 	}
 }
