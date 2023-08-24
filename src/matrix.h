@@ -476,7 +476,7 @@ void matrix_setelem( Matrix* m, int x, int y, float elem )
 	}
 
 	Matrix* current_m = m;
-	for(int i = 0; i < x; i++)
+	for(int i = 0; i < y; i++)
 	{
 		current_m = current_m->right;
 	}
@@ -485,11 +485,11 @@ void matrix_setelem( Matrix* m, int x, int y, float elem )
 	do{
 		previous_m_column = current_m;
 		current_m = current_m->below;
-	}while(current_m->column < y && current_m->below->column != -1);
+	}while(current_m->line < x && current_m->below->column != -1);
 
-	Matrix* previous_m_line;
+	Matrix* previous_m_line = m;
 // pra pegar campo right se precisar apagar nodo
-	for(int i = 0; i < y; i++)  
+	for(int i = 0; i < x; i++)  
 	{
 		previous_m_line = previous_m_line->below;
 	}
@@ -498,7 +498,7 @@ void matrix_setelem( Matrix* m, int x, int y, float elem )
 		previous_m_line = previous_m_line->right;
 	}
 
-	if(current_m->column > y)
+	if(current_m->line > x)
 	{
 		if(elem != 0)
 		{
