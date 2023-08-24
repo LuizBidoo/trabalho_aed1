@@ -430,35 +430,35 @@ Matrix* matrix_transpose( Matrix* m )
 
 float matrix_getelem(Matrix* m, int x, int y)
 {
-   //retorna o valor do elemento (x, y) da matriz m.
-   Matrix* current_m = m;
-   int linhas = 0;
-   int colunas = 0;
+	//retorna o valor do elemento (x, y) da matriz m.
+	Matrix* current_m = m;
+	int linhas = 0;
+	int colunas = 0;
 
-   count_lines_and_columns( &linhas, &colunas, m );
-  
-   if (x < 0 || x > linhas || y < 0 || y > colunas)
-   {
-       printf("Busca inválida");
-       return 0;
-   }
-  
-   for(int i = 0; i < x; i++)
-   {
-       current_m = current_m->right;
-   }
+	count_lines_and_columns( &linhas, &colunas, m );
 
-   do{
-       current_m = current_m->below;
-   }while(current_m->column < y && current_m->column != -1)
+	if (x < 0 || x > linhas || y < 0 || y > colunas)
+	{
+		printf("Busca inválida");
+		return 0;
+	}
 
-   if(current_m->line == x && current_m->column == y)
-   {
-       return current_m->info;
-   }else{
-       return 0;
-   }
-}
+	for(int i = 0; i < x; i++)
+	{
+		current_m = current_m->right;
+	}
+
+	do{
+		current_m = current_m->below;
+	}while(current_m->column < y && current_m->column != -1)
+
+	if(current_m->line == x && current_m->column == y)
+	{
+		return current_m->info;
+	}else{
+		return 0;
+	}
+	}
 
    {
        current_m = current_m->right;
@@ -478,49 +478,69 @@ float matrix_getelem(Matrix* m, int x, int y)
 
 void matrix_setelem( Matrix* m, int x, int y, float elem )
 {
-   //atribui ao elemento (x, y) da matriz m o valor elem.
-   int linhas = 0;
-   int colunas = 0;
+	//atribui ao elemento (x, y) da matriz m o valor elem.
+	int linhas = 0;
+	int colunas = 0;
 
-   count_lines_and_columns( &linhas, &colunas, m );
+	count_lines_and_columns( &linhas, &colunas, m );
 
-   if (x < 0 || x > linhas || y < 0 || y > colunas)
-   {
-       printf("Inserção inválida");
-       return 0;
-   }
+	if (x < 0 || x > linhas || y < 0 || y > colunas)
+	{
+		printf("Inserção inválida");
+		return 0;
+	}
 
-   Matrix* current_m = m;
-   for(int i = 0; i < x; i++)
-   {
-       current_m = current_m->right;
-   }
+	Matrix* current_m = m;
+	for(int i = 0; i < x; i++)
+	{
+		current_m = current_m->right;
+	}
 
-   do{
-       previous_m_column = current_m;
-       current_m = current_m->below;
-   }(current_m->column < y && current_m->below->column != -1)
+	Matrix* previous_m_column = current_m;
+	do{
+		previous_m_column = current_m;
+		current_m = current_m->below;
+	}(current_m->column < y && current_m->below->column != -1)
 
-   Matrix* previous_m_line = m;
-   for(int i = 0; i < )
+	Matrix* previous_m_line;
+// pra pegar campo right se precisar apagar nodo
+	for(int i = 0; i < y; i++)  
+	{
+		previous_m_line = previous_m_line->below;
+	}
+	while(previous_m_line->right < y && previous_m_line->right != -1)
+	{
+		previous_m_line = previous_m_line->right;
+	}
 
-
-   Matrix* previous_m_column;
-   if(current_m->column == y) // não preciso fazer o teste pro x, pois é garantido
-   {
-       if(elem == 0) // se o valor passado for 0, precisa-se apagar o nodo em que foi inserido
-       {
-           previous_m_column->below = current_m->below;
-           free(current_m);
-       }
-       current_m->info = elem;
-   }
-   if(current_m->column - previous_m_column->column != 1)
-   {
-       Matrix* newNode = (Matrix*)malloc(sizeof(Matrix));
-       newNode->line = x;
-       newNode->column = y;
-       newNode->info = elem;
-       matrix_insert_below_camps(newNode);
-   }
+	if(current_m->column > y)
+	{
+		if(elem != 0)
+		{
+			Matrix* temp;
+			temp = previous_m_column->below->below;
+			previous_m_column->below = (Matrix*)malloc(sizeof(Matrix));
+			previous_m_column->below->line = x;
+			previous_m_column->below->column = y;
+			previous_m_column->below->info = elem;
+			previous_m_column->below->below = temp;
+			previous_m_column->right = previous_m_line;
+		}
+	} else if(current_m->column == y) // não preciso fazer o teste pro x, pois é garantido
+	{
+		if(elem == 0) // se o valor passado for 0, precisa-se apagar o nodo em que foi inserido
+		{
+			previous_m_column->below = current_m->below;
+			previous_m_line->right = current_m->right;
+			free(current_m);
+		}
+	}
+	if(current_m->column - previous_m_column->column != 1)
+	{
+		Matrix* newNode = (Matrix*)malloc(sizeof(Matrix));
+		newNode->line = x;
+		newNode->column = y;
+		newNode->info = elem;
+		matrix_insert_below_camps(newNode);
+	}
 }
