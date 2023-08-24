@@ -485,7 +485,7 @@ void matrix_setelem( Matrix* m, int x, int y, float elem )
 	do{
 		previous_m_column = current_m;
 		current_m = current_m->below;
-	}while(current_m->line < x && current_m->below->column != -1);
+	}while(current_m->line < x && current_m->column != -1);
 
 	Matrix* previous_m_line = m;
 // pra pegar campo right se precisar apagar nodo
@@ -498,17 +498,17 @@ void matrix_setelem( Matrix* m, int x, int y, float elem )
 		previous_m_line = previous_m_line->right;
 	}
 
-	if(current_m->line > x)
+	if(current_m->line != x)
 	{
 		if(elem != 0)
 		{
 			Matrix* temp;
-			temp = previous_m_column->below->below;
+			temp = *(previous_m_column->below); // isso ta errado
 			previous_m_column->below = (Matrix*)malloc(sizeof(Matrix));
 			previous_m_column->below->line = x;
 			previous_m_column->below->column = y;
 			previous_m_column->below->info = elem;
-			previous_m_column->below->below = temp;
+			previous_m_column->below->below = *temp;
 			previous_m_column->right = previous_m_line->right;
 		}
 	} else if(current_m->column == y) // não preciso fazer o teste pro x, pois é garantido
