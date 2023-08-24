@@ -458,21 +458,6 @@ float matrix_getelem(Matrix* m, int x, int y)
 	}else{
 		return 0;
 	}
-	}
-
-   {
-       current_m = current_m->right;
-   }
-   while(current_m->column < y)
-   {
-       current_m = current_m->below;
-   }
-   if(current_m->line == x && current_m->column == y)
-   {
-       return current_m->info;
-   }else{
-       return 0;
-   }
 }
 
 
