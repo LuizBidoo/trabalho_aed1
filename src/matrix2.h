@@ -30,23 +30,54 @@ void matrix_print ( Matrix* matrix, unsigned int m )
     {  
         for(int j = 0; j < m; j++)
         {
-            printf("%.1f\n", matrix[i][j]);
+            printf("%d %d %.1f\n", i, j, matrix[i][j]);
+        }
+    }
+}
+
+Matrix* matrix_add ( Matrix* matrix, Matrix* matrix_2, unsigned int m )
+{
+    float** new = (float**)malloc(sizeof(float*)*m);
+    for(int i = 0; i < m; i++)
+    {
+        new[i] = (float*)malloc(sizeof(float)*m);
+    }
+
+    for(int i = 0; i < m; i++)
+    {  
+        for(int j = 0; j < m; j++)
+        {
+            new[i][j] = matrix[i][j] + matrix_2[i][j]; 
+        }
+    }
+}
+
+Matrix* matrix_multiply ( Matrix* matrix, Matrix* matrix_2, unsigned int m )
+{
+    float** new = (float**)malloc(sizeof(float*)*m);
+    for(int i = 0; i < m; i++)
+    {
+        new[i] = (float*)malloc(sizeof(float)*m);
+    }
+
+    int sum = 0;
+    for(int line = 0; line < m; line++)
+    {
+        for(int col = 0; col < m; col++)
+        {
+            for(int i = 0; i < m; i ++)
+            {
+                sum+= matrix[line][i] * matrix_2[i][col];
+            }
+            new[line][col] = sum;
+            sum = 0;
         }
     }
 
+    return new;
 }
 
-Matrix* matrix_add ( Matrix* m )
-{
-
-}
-
-Matrix* matrix_multiply ( Matrix* m )
-{
-
-}
-
-Matrix* matrix_transpose ( Matrix* m )
+Matrix* matrix_transpose ( Matrix* matrix, unsigned int m )
 {
 
 }
