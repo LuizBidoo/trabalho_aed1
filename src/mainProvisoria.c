@@ -7,6 +7,7 @@ int main( void ) {
     matrix_print(A, 2);
     printf("transposed: \n");
     matrix_print(matrix_transpose(A, 2), 2);
+    matrix_destroy(A, 2);
     return 0;
 }
 

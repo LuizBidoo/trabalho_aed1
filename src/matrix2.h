@@ -24,6 +24,15 @@ Matrix* matrix_create( unsigned int m )
     return matrix;
 }
 
+void matrix_destroy ( Matrix* matrix, unsigned int m)
+{
+    for(int i = 0; i < m; i++)
+    {
+        free(matrix[i]);
+    }
+    free(matrix);
+}
+
 void matrix_print ( Matrix* matrix, unsigned int m )
 {
     for(int i = 0; i < m; i++)
