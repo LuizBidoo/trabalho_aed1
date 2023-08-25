@@ -66,6 +66,7 @@ Matrix* matrix_add ( Matrix* matrix, Matrix* matrix_2, unsigned int m )
             new[i][j] = matrix[i][j] + matrix_2[i][j]; 
         }
     }
+    return new;
 }
 
 Matrix* matrix_multiply ( Matrix* matrix, Matrix* matrix_2, unsigned int m )
