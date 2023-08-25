@@ -117,8 +117,9 @@ Matrix* matrix_create( void )
 
     while(1){
 
+		line = 0;
 	    scanf("%d", &line);
-		if(line == 0) return m; //talvez deveria poder ser `.` tb, mas bugou
+		if(line == 0) return m;
 
 		scanf("%d %d", &column, &info);
 		// localizar line, criar nodo e alterar ponteiros
@@ -165,9 +166,8 @@ Matrix* matrix_create( void )
 			previous = temp->right;
 			temp->right = current;
 			current->right = previous;
-//
 
-		printf("added node:\nline: %d\ncolumn: %d\ninfo:%f\n", current->line, current->column, current->info);
+		//printf("added node:\nline: %d\ncolumn: %d\ninfo:%f\n", current->line, current->column, current->info);
 
     }
 }
@@ -428,7 +428,7 @@ Matrix* matrix_transpose( Matrix* m )
 	return new;
 }
 
-float matrix_getelem(Matrix* m, int x, int y)
+float matrix_getelem( Matrix* m, int x, int y )
 {
 	//retorna o valor do elemento (x, y) da matriz m.
 	Matrix* current_m = m;
@@ -459,7 +459,6 @@ float matrix_getelem(Matrix* m, int x, int y)
 		return 0;
 	}
 }
-
 
 void matrix_setelem( Matrix* m, int x, int y, float elem )
 {
