@@ -79,5 +79,18 @@ Matrix* matrix_multiply ( Matrix* matrix, Matrix* matrix_2, unsigned int m )
 
 Matrix* matrix_transpose ( Matrix* matrix, unsigned int m )
 {
+    float** new = (float**)malloc(sizeof(float*)*m);
+    for(int i = 0; i < m; i++)
+    {
+        new[i] = (float*)malloc(sizeof(float)*m);
+    }
 
+    for(int line = 0; line < m; line++)
+    {
+        for(int col = 0; col < m; col++)
+        {
+            new[line][col] = matrix[col][line];
+        }
+    }
+    return new;
 }
