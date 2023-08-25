@@ -320,7 +320,7 @@ Matrix* matrix_multiply( Matrix* m, Matrix* n )
 	Matrix* current_m_line_head = m->below;
 	Matrix* current_n = n->right->below;
 	Matrix* current_n_column_head = n->right;
-	int sum = 0;	
+	float sum = 0;	
 	while(current_m_line_head != m)
 	{
 		while(current_m->column == current_n->line)
