@@ -13,11 +13,18 @@ Matrix* matrix_create( unsigned int m )
         matrix[i] = (float*)malloc(sizeof(float)*m);
     }
 
+    int temp = 0;
     for(int i = 0; i < m; i++)
     {
         for(int j = 0; j < m; j++)
         {
-            matrix[i][j] = rand()%100;
+            temp = rand()%200;
+            if(temp > 50)
+            {
+                matrix[i][j] = 0;
+            } else{
+                matrix[i][j] = temp;
+            }
         }
     }
 

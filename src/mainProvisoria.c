@@ -2,12 +2,10 @@
 
 int main( void ) {
     /* Inicializacao da aplicacao ... */
-    Matrix *A = matrix_create(2);
+    Matrix *A = matrix_create(4);
     printf("A: \n");
-    matrix_print(A, 2);
-    printf("transposed: \n");
-    matrix_print(matrix_transpose(A, 2), 2);
-    matrix_destroy(A, 2);
+    matrix_print(A, 4);
+    matrix_destroy(A, 4);
     return 0;
 }
 
