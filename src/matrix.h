@@ -503,13 +503,14 @@ void matrix_setelem( Matrix* m, int x, int y, float elem )
 		if(elem != 0)
 		{
 			Matrix* temp;
-			temp = *(previous_m_column->below); // isso ta errado
+			temp = previous_m_column->below;
 			previous_m_column->below = (Matrix*)malloc(sizeof(Matrix));
 			previous_m_column->below->line = x;
 			previous_m_column->below->column = y;
 			previous_m_column->below->info = elem;
-			previous_m_column->below->below = *temp;
-			previous_m_column->right = previous_m_line->right;
+			previous_m_column->below->below = temp;
+			previous_m_column->below->right = previous_m_line->right;
+			previous_m_line->right = previous_m_column->below;
 		}
 	} else if(current_m->column == y) // não preciso fazer o teste pro x, pois é garantido
 	{
