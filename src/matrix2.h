@@ -17,7 +17,7 @@ Matrix* matrix_create( unsigned int m )
     {
         for(int j = 0; j < m; j++)
         {
-            matrix[i][j] = rand();
+            matrix[i][j] = rand()%100;
         }
     }
 
