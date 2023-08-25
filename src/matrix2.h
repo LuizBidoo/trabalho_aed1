@@ -2,26 +2,38 @@
 #include<stdlib.h>
 #include<time.h>
 
-typedef float Matrix;
+typedef float* Matrix;
 
 Matrix* matrix_create( unsigned int m )
 {
     srand(time(0));
-    float Matrix[m][m];
+    float** matrix = (float**)malloc(sizeof(float*)*m);
+    for(int i = 0; i < m; i++)
+    {
+        matrix[i] = (float*)malloc(sizeof(float)*m);
+    }
+
     for(int i = 0; i < m; i++)
     {
         for(int j = 0; j < m; j++)
         {
-            Matrix[i][j] = rand();
+            matrix[i][j] = rand();
         }
     }
 
-    return &Matrix[0][0];
+    return matrix;
 }
 
-void matrix_print ( Matrix Matrix[][] )
+void matrix_print ( Matrix* matrix, unsigned int m )
 {
-    Matrix[0][0] = 0;
+    matrix[0][0] = 0;
+    for(int i = 0; i < m; i++)
+    {  
+        for(int j = 0; j < m; j++)
+        {
+            printf("%.1f", matrix[i][j]);
+        }
+    }
 
 }
 
