@@ -112,7 +112,7 @@ Matrix* matrix_create( void )
 
     int line = 0;
     int column = 0;
-    int info = 0;
+    float info = 0;
 	Matrix* current = m;
 
     while(1){
@@ -121,7 +121,7 @@ Matrix* matrix_create( void )
 	    scanf("%d", &line);
 		if(line == 0) return m;
 
-		scanf("%d %d", &column, &info);
+		scanf("%d %f", &column, &info);
 		// localizar line, criar nodo e alterar ponteiros
 
 		current = m;
