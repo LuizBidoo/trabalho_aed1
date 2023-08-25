@@ -26,12 +26,11 @@ Matrix* matrix_create( unsigned int m )
 
 void matrix_print ( Matrix* matrix, unsigned int m )
 {
-    matrix[0][0] = 0;
     for(int i = 0; i < m; i++)
     {  
         for(int j = 0; j < m; j++)
         {
-            printf("%.1f", matrix[i][j]);
+            printf("%.1f\n", matrix[i][j]);
         }
     }
 
