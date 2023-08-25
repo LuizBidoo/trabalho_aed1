@@ -46,7 +46,7 @@ void matrix_print ( Matrix* matrix, unsigned int m )
     {  
         for(int j = 0; j < m; j++)
         {
-            printf("%d %d %.1f\n", i, j, matrix[i][j]);
+            printf("%d %d %.1f\n", i+1, j+1, matrix[i][j]);
         }
     }
 }
