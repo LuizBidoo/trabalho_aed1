@@ -231,7 +231,7 @@ void matrix_print( Matrix* m )
 		current = line_head->right;
 		while(current != line_head) // prints whole line
 		{
-			printf("%d %d %.1f\n", current->line, current->column, current->info);
+			printf("%d %d %.6f\n", current->line, current->column, current->info);
 			current = current->right;
 		}
 	}
