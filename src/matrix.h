@@ -32,6 +32,7 @@ Matrix* matrix_create_all_heads( int total_lines, int total_columns )
 	m->below = NULL;
 	m->line = -1;
 	m->column = -1;
+	m->info = 0;
 	
 	Matrix* current = m;
 
@@ -40,6 +41,8 @@ Matrix* matrix_create_all_heads( int total_lines, int total_columns )
 			current->below = (Matrix*)malloc(sizeof(Matrix));
 			current = current->below;
 			current->line = -1;
+			current->column = 0;
+			current->info = 0;
 			current->right = current;
 		}else{
 			current->below = m; //circular
@@ -53,6 +56,8 @@ Matrix* matrix_create_all_heads( int total_lines, int total_columns )
 	    current->right = (Matrix*)malloc(sizeof(Matrix));
 	    current = current->right;
 	    current->column = -1;
+		current->line = 0;
+		current->info = 0;
 		current->below = current;
         } else {
 			current->right = m; //circular
