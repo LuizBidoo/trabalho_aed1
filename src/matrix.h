@@ -183,8 +183,6 @@ Matrix* matrix_create_random( unsigned int k )
 	Matrix* m = matrix_create_all_heads(total_lines, total_columns);
 
 	int temp_rand;
-    int line = 0;
-    int column = 0;
     float info = 0;
 	Matrix* current = m;
 
