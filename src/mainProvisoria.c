@@ -4,9 +4,9 @@
 int main( void ) {
     time_t start = time(NULL);
     /* Inicializacao da aplicacao ... */
-    Matrix *A = matrix_create_random(5000);
-    //matrix_print( A ); 
-    Matrix* C = matrix_transpose( A );
+    Matrix *A = matrix_create_random(10);
+    matrix_print( A ); 
+    Matrix* B = matrix_add( A, A );
     matrix_destroy( A );   
     //matrix_print( C );
     //matrix_destroy( C );
