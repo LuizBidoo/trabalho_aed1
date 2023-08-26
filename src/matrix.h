@@ -197,12 +197,12 @@ Matrix* matrix_create_random( unsigned int k )
 	{
 		for(int column = 1; column <= k; column++)
 		{
-			temp_rand = rand()%200;
-			if(temp_rand > 50)
-			{
-				continue;
+			temp_rand = 1 + rand()%100;
+			if(temp_rand == 1)
+			{	
+				info = 1 + rand()%100;
 			}  else{
-				info = temp_rand;
+				continue;
 			}
 		
 			current = m;
