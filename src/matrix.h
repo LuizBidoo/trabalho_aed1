@@ -197,12 +197,12 @@ Matrix* matrix_create_random( unsigned int k )
 	{
 		for(int column = 1; column <= k; column++)
 		{
-			temp_rand = rand()%200;
-			if(temp_rand > 50)
+			temp_rand = rand()%100;
+			if(temp_rand != 1)
 			{
 				continue;
 			}  else{
-				info = temp_rand;
+				info = 1+rand()%100;
 			}
 		
 			current = m;
@@ -345,7 +345,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 			current_new = current_new->right;
 			current_new->right = current_new_line_head; 
 			
-			if(current_n->line == -1 || current_m->column < current_n->column)
+			if(current_n->line == -1 || (current_m->column < current_n->column && current_m->column != 0))
 			{
 				current_new->line = current_m->line; 
 				current_new->column = current_m->column; 
@@ -353,7 +353,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 				current_m = current_m->right;
 
-			}  else if(current_m->line == -1 || current_n->column < current_m->column)
+			}  else if(current_m->line == -1 || (current_n->column < current_m->column && current_n->column != 0))
 			{
 				current_new->line = current_n->line; 
 				current_new->column = current_n->column; 
@@ -361,7 +361,7 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
 
 				current_n = current_n->right;
 
-			}  else // when equal
+			}  else if(current_m->column == current_n->column && (current_m->line != -1 && current_n->line != -1))// when equal
 			{
 				current_new->line = current_m->line; //could be m or n
 				current_new->column = current_m->column; //could be m or n

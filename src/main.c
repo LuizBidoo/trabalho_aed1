@@ -4,9 +4,9 @@
 int main( void ) {
     time_t start = time(NULL);
     /* Inicializacao da aplicacao ... */
-    Matrix *A = matrix_create();
+    Matrix *A = matrix_create_random(5000);
     //matrix_print( A );
-    Matrix *B = matrix_create(); 
+    Matrix *B = matrix_create_random(5000); 
     //matrix_print( B );
     Matrix *C = matrix_add( A, B ); 
     //matrix_print( C );
@@ -19,6 +19,7 @@ int main( void ) {
     matrix_destroy( C );
     matrix_destroy( A );
     matrix_destroy( B );
+
     time_t end = time(NULL);
     printf("Tempo de execucao: %ld", (end-start));
 
