@@ -18,12 +18,12 @@ Matrix* matrix_create( unsigned int m )
     {
         for(int j = 0; j < m; j++)
         {
-            temp = rand()%200;
-            if(temp > 50)
+            temp = 1 + rand()%100;
+            if(temp == 1)
             {
-                matrix[i][j] = 0;
+                matrix[i][j] = 1 + rand()%100;
             } else{
-                matrix[i][j] = temp;
+                matrix[i][j] = 0;
             }
         }
     }
