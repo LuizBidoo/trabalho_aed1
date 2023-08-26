@@ -435,8 +435,18 @@ Matrix* matrix_multiply( Matrix* m, Matrix* n )
 				current_new->right = (Matrix*)malloc(sizeof(Matrix));
 				current_new = current_new->right;
 
-				current_new->line = current_m->right->line;
-				current_new->column = current_n->below->column;
+				if(current_m->line == -1)
+				{
+					current_new->line = current_m->right->line;
+				}  else{
+					current_new->line = current_m->line;
+				}
+				if(current_n->column == -1)
+				{
+					current_new->column = current_n->below->column;
+				}  else{
+					current_new->column = current_n->column;
+				}
 				current_new->right = current_new_line_head;
 				current_new->info = sum;
 				sum = 0;
