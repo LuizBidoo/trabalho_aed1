@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 typedef struct matrix {
 	struct matrix* right;
@@ -170,6 +171,85 @@ Matrix* matrix_create( void )
 		//printf("added node:\nline: %d\ncolumn: %d\ninfo:%f\n", current->line, current->column, current->info);
 
     }
+}
+
+Matrix* matrix_create_random( unsigned int k )
+{
+	//Le de stdin os elementos diferentes de 0 e monta a matriz
+	srand(time(NULL));
+    int total_lines = k;
+	int total_columns = k;
+
+	Matrix* m = matrix_create_all_heads(total_lines, total_columns);
+
+	int temp_rand;
+    int line = 0;
+    int column = 0;
+    float info = 0;
+	Matrix* current = m;
+
+    
+
+	for(int line = 1; line <= k; line++)
+	{
+		for(int column = 1; column <= k; column++)
+		{
+			temp_rand = rand()%200;
+			if(temp_rand > 50)
+			{
+				continue;
+			}  else{
+				info = temp_rand;
+			}
+		
+			current = m;
+			for(int i = 0; i < column; i++)   // descobre cabeça da coluna certa
+			{
+				current = current->right;
+			}
+			Matrix* current_column_head = current;
+
+			current = m;
+			for(int i = 0; i < line; i++)    // descobre cabeça da linha certa 
+			{
+				current = current->below;
+			}
+			Matrix* line_head = current;
+
+			///////////////////////////////////////////////////////////////////////////////////////// 
+
+	// criando nodo no lugar certo
+			Matrix* temp = current_column_head;
+			while(temp->below->line < line && temp->below->column != -1) 
+			{
+				temp = temp->below;
+			}
+
+				Matrix* previous = temp->below;
+				temp->below = (Matrix*)malloc(sizeof(Matrix));
+				current = temp->below;
+
+				current->column = column;
+				current->line = line;
+				current->info = info;
+				current->below = previous;
+	//
+
+	// adicionando current->right
+			temp = line_head;
+			while(temp->right->column < column && temp->right->line != -1) 
+			{
+				temp = temp->right;
+			}
+				previous = temp->right;
+				temp->right = current;
+				current->right = previous;
+
+			//printf("added node:\nline: %d\ncolumn: %d\ninfo:%f\n", current->line, current->column, current->info);
+
+		}
+	} 
+	return m;
 }
 
 void matrix_destroy( Matrix* m )

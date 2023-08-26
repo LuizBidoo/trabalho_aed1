@@ -1,10 +1,10 @@
-#include "matrix2.h"
+#include "matrix.h"
 
 int main( void ) {
     /* Inicializacao da aplicacao ... */
-    Matrix *A = matrix_create(2);
-    matrix_print(matrix_multiply(A,A, 2), 2);
-    matrix_destroy(A, 2);
+    Matrix *A = matrix_create_random(2);
+    matrix_print(A);
+    matrix_destroy(A);
     return 0;
 }
 
