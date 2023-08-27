@@ -324,8 +324,24 @@ Matrix* matrix_add( Matrix* m, Matrix* n )
     //recebe como parâmetros duas matrizes e retorna a soma delas
 	int total_lines = 0;
 	int total_columns = 0;
+	int total_lines_temp = 0;
+	int total_columns_temp = 0;
 	
 	count_lines_and_columns(&total_lines,&total_columns, m);
+	count_lines_and_columns(&total_lines_temp, &total_columns_temp, n);
+	
+	if(total_lines != total_lines_temp || total_columns != total_columns_temp)
+	{
+		printf("Soma de matrizes de ordem diferente nao existe.\n");
+		Matrix* new = (Matrix*)malloc(sizeof(Matrix));  // matriz = cabeça dupla
+		new->right = new;
+		new->below = new;
+		new->line = -1;
+		new->column = -1;
+		new->info = 0;
+		return new;
+	}
+	
 
 	Matrix* new = matrix_create_all_heads(total_lines, total_columns);
 
