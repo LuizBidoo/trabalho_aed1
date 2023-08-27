@@ -130,6 +130,12 @@ Matrix* matrix_create( void )
 		scanf("%d %f", &column, &info);
 		// localizar line, criar nodo e alterar ponteiros
 
+		if(info == 0)
+		{
+			printf("informacao nao pode ser 0. \n");
+			continue;
+		}
+
 		current = m;
 		for(int i = 0; i < column; i++)   // descobre cabeça da coluna certa
 		{
