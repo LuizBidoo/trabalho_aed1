@@ -410,6 +410,18 @@ Matrix* matrix_multiply( Matrix* m, Matrix* n )
 	count_lines_and_columns(&total_lines_m, &total_columns_m, m);
 	count_lines_and_columns(&total_lines_n, &total_columns_n, m);
 
+	if(total_columns_m != total_lines_n)
+	{
+		printf("Multiplicacao invalida.\n");
+		Matrix* new = (Matrix*)malloc(sizeof(Matrix));  // matriz = cabeça dupla
+		new->right = new;
+		new->below = new;
+		new->line = -1;
+		new->column = -1;
+		new->info = 0;
+		return new;
+	}
+
 	Matrix* new = matrix_create_all_heads(total_lines_m, total_columns_n);
 
 	Matrix* current_new = new->below;
