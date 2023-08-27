@@ -2,6 +2,7 @@
 #include <time.h>
 
 int main( void ) {
+    srand(time(NULL));
     time_t start = time(NULL);
     /* Inicializacao da aplicacao ... */
     Matrix *A = matrix_create_random(5000);
