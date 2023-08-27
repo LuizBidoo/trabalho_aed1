@@ -181,7 +181,6 @@ Matrix* matrix_create( void )
 Matrix* matrix_create_random( unsigned int k )
 {
 	//Le de stdin os elementos diferentes de 0 e monta a matriz
-	srand(time(NULL));
     int total_lines = k;
 	int total_columns = k;
 
